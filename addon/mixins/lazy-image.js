@@ -1,10 +1,13 @@
-import Ember from 'ember';
-import Cache from '../lib/cache';
+import { dasherize } from '@ember/string';
+import { on } from '@ember/object/evented';
+import Mixin from '@ember/object/mixin';
+import { setProperties, computed, set, get } from '@ember/object';
 
-const { on, get, set, Mixin, computed, setProperties } = Ember;
-const dasherize = Ember.String.dasherize;
+import { storageFor } from 'ember-local-storage';
 
 export default Mixin.create({
+  _cache: storageFor('cache', { legacyKey: 'ember-lazy-images' }),
+
   didInsertElement() {
     setProperties(this, {
       viewportScrollSensitivity: 20,
@@ -18,17 +21,17 @@ export default Mixin.create({
     this._super(...arguments);
   },
 
-  _cache: Cache.create(),
-
   lazyUrl: null,
 
-  handleDidRender: on('didRender', function() {
+  didRender() {
+    this._super(...arguments);
     this._setupAttributes();
-  }),
+  },
 
-  handleImageUrl: on('init', function() {
+  init() {
+    this._super(...arguments);
     this._setImageUrl();
-  }),
+  },
 
   _setImageUrl: on('didEnterViewport', function() {
     const url             = get(this, 'url');
@@ -55,7 +58,7 @@ export default Mixin.create({
     var key;
 
     if (url) {
-      key = dasherize(url.toString().replace(/^http[s]?\:\/\/|\.|\//g, ''));
+      key = dasherize(url.toString().replace(/^http[s]?:\/\/|\.|\//g, ''));
     }
 
     if (key) {
