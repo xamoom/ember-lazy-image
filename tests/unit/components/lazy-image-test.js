@@ -27,7 +27,7 @@ module('Integration | Component | lazy-image', function(hooks) {
     assert.equal(get(component, 'errorThrown'),      false);
     assert.equal(get(component, 'lazyUrl'),          null);
     assert.equal(get(component, 'defaultErrorText'), 'Image failed to load');
-    assert.equal(get(component, 'class'),            'lazy-image');
+    assert.equal(get(component, 'className'),            'lazy-image');
   });
 
   test('it renders default placeholder', async function(assert) {

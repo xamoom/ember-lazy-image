@@ -20,6 +20,11 @@ export default Mixin.create({
     this._super(...arguments);
   },
 
+  didRender() {
+    this._super(...arguments);
+    this._setupAttributes();
+  },
+
   lazyUrl: null,
 
   didEnterViewport(){
