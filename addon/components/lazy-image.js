@@ -1,4 +1,4 @@
-import { computed, get, set } from '@ember/object';
+import { computed, get } from '@ember/object';
 import Component from '@ember/component';
 import ImageLoadMixin  from '../mixins/image-load';
 import LazyImageMixin  from '../mixins/lazy-image';
@@ -7,6 +7,7 @@ import layout from '../templates/components/lazy-image'
 
 export default Component.extend(InViewportMixin, ImageLoadMixin, LazyImageMixin, {
   layout,
+
   classNames: ['lazy-image-container'],
 
   classNameBindings: ['loaded', 'errorThrown'],
@@ -16,8 +17,8 @@ export default Component.extend(InViewportMixin, ImageLoadMixin, LazyImageMixin,
   init() {
     this._super(...arguments);
     const classArray = get(this, 'class') || [];
-    classArray.push('lazy-image') ;
-    set(this, 'class', classArray.join(' '));
+    classArray.push('lazy-image');
+    this.className = classArray.join(' ');
   },
 
   _setupAttributes() {
